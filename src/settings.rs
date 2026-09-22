@@ -9,6 +9,7 @@ use gio::{self, prelude::*};
 #[derive(PartialEq, Eq)]
 pub enum FontSource {
     Rpc,
+    Config,
     Gnome,
     Default,
 }
@@ -28,8 +29,8 @@ impl State {
     }
 
     fn update_font(&mut self, shell: &mut Shell) {
-        // rpc is priority for font
-        if self.font_source == FontSource::Rpc {
+        // rpc and config.toml both take priority over the GNOME default
+        if matches!(self.font_source, FontSource::Rpc | FontSource::Config) {
             return;
         }
 
@@ -55,10 +56,17 @@ impl Settings {
         self.shell = Some(shell);
     }
 
-    pub fn init(&mut self) {
+    pub fn init(&mut self, config_font: Option<&str>) {
         let shell = Weak::upgrade(self.shell.as_ref().unwrap()).unwrap();
         let state = self.state.clone();
-        self.state.borrow_mut().update_font(&mut shell.borrow_mut());
+
+        if let Some(font) = config_font {
+            shell.borrow_mut().set_font_desc(font);
+            self.state.borrow_mut().font_source = FontSource::Config;
+        } else {
+            self.state.borrow_mut().update_font(&mut shell.borrow_mut());
+        }
+
         self.state
             .borrow()
             .gnome_interface_settings
@@ -73,8 +81,8 @@ impl Settings {
 }
 
 fn monospace_font_changed(shell: &mut Shell, state: &mut State) {
-    // rpc is priority for font
-    if state.font_source != FontSource::Rpc {
+    // rpc and config.toml both take priority over the GNOME default
+    if !matches!(state.font_source, FontSource::Rpc | FontSource::Config) {
         state.update_font(shell);
     }
 }

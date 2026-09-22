@@ -14,6 +14,7 @@ use gtk::{AboutDialog, ApplicationWindow, Button, HeaderBar, Orientation, Paned,
 use serde::{Deserialize, Serialize};
 
 use crate::Args;
+use crate::config::AppConfig;
 use crate::file_browser::FileBrowserWidget;
 use crate::highlight::BackgroundState;
 use crate::misc::{self, BoolExt};
@@ -117,8 +118,10 @@ impl Ui {
         }
         self.initialized = true;
 
+        let config = AppConfig::load();
+
         let mut settings = self.settings.borrow_mut();
-        settings.init();
+        settings.init(config.font.as_deref());
 
         let window = ApplicationWindow::new(app);
 
@@ -147,9 +150,8 @@ impl Ui {
 
             comps.window = Some(window.clone());
 
-            let prefer_dark_theme = env::var("NVIM_GTK_PREFER_DARK_THEME")
-                .map(|opt| opt.trim() == "1")
-                .unwrap_or(false);
+            let prefer_dark_theme =
+                env_flag("NVIM_GTK_PREFER_DARK_THEME").unwrap_or(config.prefer_dark_theme);
             if prefer_dark_theme {
                 window
                     .settings()
@@ -176,13 +178,14 @@ impl Ui {
         }
 
         // Client side decorations including the toolbar are disabled via NVIM_GTK_NO_HEADERBAR=1
-        let use_header_bar = env::var("NVIM_GTK_NO_HEADERBAR")
-            .map(|opt| opt.trim() != "1")
-            .unwrap_or(true);
+        // or `show_header_bar = false` in config.toml
+        let use_header_bar =
+            env_flag("NVIM_GTK_NO_HEADERBAR").map_or(config.show_header_bar, |no_header_bar| {
+                !no_header_bar
+            });
 
-        let disable_window_decoration = env::var("NVIM_GTK_NO_WINDOW_DECORATION")
-            .map(|opt| opt.trim() == "1")
-            .unwrap_or(false);
+        let disable_window_decoration = env_flag("NVIM_GTK_NO_WINDOW_DECORATION")
+            .unwrap_or(!config.window_decorations);
 
         if disable_window_decoration {
             window.set_decorated(false);
@@ -790,6 +793,12 @@ fn set_background(shell: &RefCell<Shell>, args: Vec<String>) {
         state,
         move || state.borrow_mut().queue_draw(RedrawMode::ClearCache)
     ));
+}
+
+/// Reads a boolean `NVIM_GTK_*` env var override (`"1"` is true, anything else set is false).
+/// Returns `None` when the var isn't set, so config.toml's value applies instead.
+fn env_flag(name: &str) -> Option<bool> {
+    env::var(name).ok().map(|v| v.trim() == "1")
 }
 
 fn shorten_home_dir(path: impl AsRef<Path>) -> Option<String> {

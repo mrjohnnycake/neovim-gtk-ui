@@ -4,6 +4,7 @@
 #![allow(clippy::await_holding_refcell_ref)]
 
 mod color;
+mod config;
 mod dirs;
 mod mode;
 mod nvim_config;
