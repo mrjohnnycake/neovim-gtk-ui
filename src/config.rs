@@ -12,7 +12,7 @@ const CONFIG_TEMPLATE: &str = r#"# neovim-gtk-ui configuration.
 # A matching NVIM_GTK_* environment variable, if set, wins over this file.
 
 # Use the dark variant of the GTK theme.
-# prefer_dark_theme = false
+# prefer_dark_theme = true
 
 # Show the header bar (title, menu, buttons) at the top of the window.
 # show_header_bar = true
@@ -40,7 +40,7 @@ pub struct AppConfig {
 impl Default for AppConfig {
     fn default() -> Self {
         AppConfig {
-            prefer_dark_theme: false,
+            prefer_dark_theme: true,
             show_header_bar: true,
             window_decorations: true,
             font: None,
