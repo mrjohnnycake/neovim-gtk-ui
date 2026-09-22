@@ -979,6 +979,17 @@ impl Shell {
             #[upgrade_or]
             glib::Propagation::Proceed,
             move |_, key, _, modifiers| {
+                // Toggle the sidebar ourselves and stop here, rather than
+                // relying on the app.show-sidebar accelerator: local
+                // controllers run before global accelerators are considered,
+                // so forwarding to nvim first would both scroll nvim (native
+                // Ctrl-B is page-up) and starve the accelerator of the event.
+                if key == gdk::Key::b && modifiers == gdk::ModifierType::CONTROL_MASK {
+                    let state = state_ref.borrow();
+                    let _ = state.nvim_viewport.activate_action("app.show-sidebar", None);
+                    return glib::Propagation::Stop;
+                }
+
                 let mut state = state_ref.borrow_mut();
                 state.cursor.as_mut().unwrap().reset_state();
                 ui_state_ref
