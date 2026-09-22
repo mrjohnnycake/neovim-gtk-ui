@@ -278,9 +278,12 @@ impl Ui {
         window.show();
 
         if !args.disable_win_restore {
-            // Hide sidebar, if it wasn't shown last time.
             // Has to be done after show_all(), so it won't be shown again.
-            let show_sidebar = comps_ref.borrow().window_state.show_sidebar;
+            let show_sidebar = config
+                .show_sidebar
+                .unwrap_or(comps_ref.borrow().window_state.show_sidebar);
+            show_sidebar_action.change_state(&show_sidebar.to_variant());
+        } else if let Some(show_sidebar) = config.show_sidebar {
             show_sidebar_action.change_state(&show_sidebar.to_variant());
         }
 

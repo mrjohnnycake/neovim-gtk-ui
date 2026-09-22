@@ -21,6 +21,10 @@ const CONFIG_TEMPLATE: &str = r#"# --- Neovim GTK UI configuration --- #
 # Show the window's title bar and border.
 # window_decorations = true
 
+# Show the file browser sidebar. Left commented, this remembers whatever
+# you last left it as; set explicitly to always start the same way.
+# show_sidebar = true
+
 # Editor font, as a Pango font description, e.g. "Iosevka 14".
 # Left commented, this follows the GNOME system monospace font.
 # font = "Monospace 12"
@@ -62,6 +66,7 @@ pub struct AppConfig {
     pub prefer_dark_theme: bool,
     pub show_header_bar: bool,
     pub window_decorations: bool,
+    pub show_sidebar: Option<bool>,
     pub font: Option<String>,
     pub font_features: Option<String>,
     pub linespace: Option<i32>,
@@ -79,6 +84,7 @@ impl Default for AppConfig {
             prefer_dark_theme: true,
             show_header_bar: true,
             window_decorations: true,
+            show_sidebar: None,
             font: None,
             font_features: None,
             linespace: None,
