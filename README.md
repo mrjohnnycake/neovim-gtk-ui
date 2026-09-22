@@ -9,24 +9,16 @@ This is being developed on Omarchy meaning that it is focused on Wayland and Hyp
 **AI in Use**
 - This is being developed with support of Claude so if you don't like AI because it stole your milk money when you were little or something I don't know what to say. It works for me just fine.
 
-This began as a fork of [Lyude/geovim-gtk](https://github.com/Lyude/neovim-gtk) which was itself a fork of [daa84/neovim-gtk](https://github.com/daa84/neovim-gtk). 
-
+This began as a fork of [Lyude/geovim-gtk](https://github.com/Lyude/neovim-gtk) which was itself a fork of [daa84/neovim-gtk](https://github.com/daa84/neovim-gtk).
 
 ---
 
-
-Note that I haven't set up the wiki pages for this repo yet, so wiki links still go to daa84's wiki
-repo.
-
-
-For more screenshots and description of basic usage see [wiki](https://github.com/daa84/neovim-gtk/wiki/GUI)
+For more screenshots and a description of basic usage see [wiki/GUI.md](wiki/GUI.md).
 
 # Configuration
-To setup font add next line to `ginit.vim`
-```vim
-set guifont=Iosevka\ 11.4,Fira\ Code\ 9
-```
-for more details see [wiki](https://github.com/daa84/neovim-gtk/wiki/Configuration)
+Settings live in `~/.config/neovim-gtk-ui/config.toml`, auto-created on first run with every option
+commented out and explained. See [wiki/Configuration.md](wiki/Configuration.md) for the full list,
+plus the `ginit.vim` commands available for anything not covered there.
 
 # Install
 ## From sources
