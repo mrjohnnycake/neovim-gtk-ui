@@ -250,8 +250,7 @@ fn main() {
         };
     }
 
-    // Debugging mode for CLI test runs
-    #[cfg(debug_assertions)]
+    // Short-circuit for CLI test runs (see tests/cli_tests.rs)
     if std::env::var("NVIM_GTK_CLI_TEST_MODE") == Ok("1".to_string()) {
         println!("Testing the CLI");
         if !args.post_config_cmds.is_empty() {
