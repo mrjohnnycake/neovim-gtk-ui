@@ -124,7 +124,7 @@ impl ResizeState {
     }
 }
 
-/// A collection of all header bar buttons used in nvim-gtk
+/// A collection of all header bar buttons used in neovim-gtk-ui
 pub struct HeaderBarButtons {
     open_btn: MenuButton,
     new_tab_btn: Button,
@@ -1635,7 +1635,7 @@ fn init_nvim_async(
             PathBuf::from(env_rtp)
         } else {
             match _get_grandparent_dir() {
-                Ok(gp_dir) => gp_dir.join("share/nvim-gtk/runtime"),
+                Ok(gp_dir) => gp_dir.join("share/neovim-gtk-ui/runtime"),
                 Err(_) => {
                     set_runtime_path = false;
                     PathBuf::new() // Only to match typing, doesn't really matter

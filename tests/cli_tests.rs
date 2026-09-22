@@ -1,4 +1,4 @@
-/// Tests for the command line interface (e.g. `nvim-gtk --no-fork foo.txt`)
+/// Tests for the command line interface (e.g. `neovim-gtk-ui --no-fork foo.txt`)
 
 #[test]
 fn cli_tests() {

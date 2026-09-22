@@ -1,10 +1,10 @@
-app-id: com.github.Lyude.neovim-gtk
+app-id: io.github.mrjohnnycake.neovim-gtk-ui
 runtime: org.gnome.Platform
 runtime-version: '45'
 sdk: org.gnome.Sdk
 sdk-extensions:
 - org.freedesktop.Sdk.Extension.rust-stable
-command: nvim-gtk
+command: neovim-gtk-ui
 finish-args:
 - --share=ipc
 - --socket=fallback-x11
@@ -16,17 +16,15 @@ build-options:
   build-args:
   - "--share=network" # for cargo fetching dependencies
   env:
-    CARGO_HOME: "/run/build/neovim-gtk" # for caching 
+    CARGO_HOME: "/run/build/neovim-gtk-ui" # for caching
     CARGO_ARGS: "--features flatpak"
     PREFIX: "/app"
 modules:
-- name: neovim-gtk
+- name: neovim-gtk-ui
   buildsystem: simple
   build-commands:
   - make install-flatpak
   sources:
   - type: archive
-    #url: https://github.com/Lyude/neovim-gtk/archive/refs/tags/v1.0.4.tar.gz
-    #sha256: d0d0dacfbfca16168361f517dee20259785379910173cc33d7d48bd301d30f18
-    url: https://github.com/Lyude/neovim-gtk/archive/3739f961d28d2a7c98b1fd8be912fc4bb9d9d216.tar.gz
-    sha256: 78f0a12bdbf5d085fdbc0a57d877b695c5ae4873d036dd5e190141a927da2819
+    url: https://github.com/mrjohnnycake/neovim-gtk-ui/archive/b9cc9d19f19a5ee07dc20c66eb022549fe5294c3.tar.gz
+    sha256: bcba92003aa5739bfef2476be324b5a2005eb9084dca64a2d9d7e7c7e9d82511

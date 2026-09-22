@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=NeovimGtk
+Name=Neovim GTK UI
 Comment=Gtk GUI for Neovim text editor
-Exec=nvim-gtk -- %F
-Icon=com.github.Lyude.neovim-gtk
+Exec=neovim-gtk-ui -- %F
+Icon=io.github.mrjohnnycake.neovim-gtk-ui
 Type=Application
 Terminal=false
 Categories=GTK;Utility;TextEditor;

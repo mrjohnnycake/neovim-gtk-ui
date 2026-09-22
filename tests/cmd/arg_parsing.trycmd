@@ -1,7 +1,7 @@
 Make sure `$NVIM_GTK_CLI_TEST_MODE` actually works
 
 ```
-$ nvim-gtk
+$ neovim-gtk-ui
 ? success
 Testing the CLI
 
@@ -10,24 +10,24 @@ Testing the CLI
 Diff mode tests
 
 ```
-$ nvim-gtk -d
+$ neovim-gtk-ui -d
 ? failed
 error: the following required arguments were not provided:
   <FILES>...
 
-Usage: nvim-gtk[EXE] -d <FILES>... [-- <NVIM_ARGS>...]
+Usage: neovim-gtk-ui[EXE] -d <FILES>... [-- <NVIM_ARGS>...]
 
 For more information, try '--help'.
 
-$ nvim-gtk -d foo
+$ neovim-gtk-ui -d foo
 ? failed
 error: Diff mode (-d) requires 2 or more files
 
-Usage: nvim-gtk[EXE] [OPTIONS] [FILES]... [-- <NVIM_ARGS>...]
+Usage: neovim-gtk-ui[EXE] [OPTIONS] [FILES]... [-- <NVIM_ARGS>...]
 
 For more information, try '--help'.
 
-$ nvim-gtk -d foo bar
+$ neovim-gtk-ui -d foo bar
 ? success
 Testing the CLI
 
@@ -36,24 +36,24 @@ Testing the CLI
 Post-config commands
 
 ```
-$ nvim-gtk -c
+$ neovim-gtk-ui -c
 ? failed
 error: a value is required for '-c <CMD>' but none was supplied
 
 For more information, try '--help'.
 
-$ nvim-gtk -c foo
+$ neovim-gtk-ui -c foo
 ? success
 Testing the CLI
 Commands passed: ['foo']
 
-$ nvim-gtk -c foo -c
+$ neovim-gtk-ui -c foo -c
 ? failed
 error: a value is required for '-c <CMD>' but none was supplied
 
 For more information, try '--help'.
 
-$ nvim-gtk -c foo -c bar
+$ neovim-gtk-ui -c foo -c bar
 ? success
 Testing the CLI
 Commands passed: ['foo', 'bar']

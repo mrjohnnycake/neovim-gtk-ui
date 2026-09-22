@@ -709,11 +709,11 @@ impl Ui {
 fn on_help_about(window: &gtk::ApplicationWindow) {
     let about = AboutDialog::new();
     about.set_transient_for(Some(window));
-    about.set_program_name(Some("NeovimGtk"));
+    about.set_program_name(Some("Neovim GTK UI"));
     about.set_version(Some(
         crate::GIT_BUILD_VERSION.unwrap_or(env!("CARGO_PKG_VERSION")),
     ));
-    about.set_logo_icon_name(Some("com.github.Lyude.neovim-gtk"));
+    about.set_logo_icon_name(Some("io.github.mrjohnnycake.neovim-gtk-ui"));
     about.set_authors(
         env!("CARGO_PKG_AUTHORS")
             .split(':')

@@ -11,6 +11,6 @@ pub fn app_config_dir_create() -> Result<PathBuf, String> {
 }
 
 pub fn app_config_dir() -> &'static Path {
-    static DIR: Lazy<PathBuf> = Lazy::new(|| glib::user_config_dir().join("nvim-gtk"));
+    static DIR: Lazy<PathBuf> = Lazy::new(|| glib::user_config_dir().join("neovim-gtk-ui"));
     DIR.as_path()
 }

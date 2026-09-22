@@ -123,7 +123,7 @@ impl FromStr for NvimTransport {
 
 #[derive(Parser, Debug, Clone)]
 #[command(
-    name = "neovim-gtk",
+    name = "neovim-gtk-ui",
     version = GIT_BUILD_VERSION.unwrap_or(env!("CARGO_PKG_VERSION")),
     author = env!("CARGO_PKG_AUTHORS"),
     about = misc::about_comments(),
@@ -273,12 +273,12 @@ fn main() {
         | gio::ApplicationFlags::HANDLES_COMMAND_LINE
         | gio::ApplicationFlags::NON_UNIQUE;
 
-    glib::set_program_name(Some("NeovimGtk"));
+    glib::set_program_name(Some("Neovim GTK UI"));
 
     let app = if cfg!(debug_assertions) {
-        gtk::Application::new(Some("com.github.Lyude.neovim-gtkDebug"), app_flags)
+        gtk::Application::new(Some("io.github.mrjohnnycake.neovim-gtk-uiDebug"), app_flags)
     } else {
-        gtk::Application::new(Some("com.github.Lyude.neovim-gtk"), app_flags)
+        gtk::Application::new(Some("io.github.mrjohnnycake.neovim-gtk-ui"), app_flags)
     };
 
     let app_cmdline = Rc::new(RefCell::new(None));
@@ -331,7 +331,7 @@ fn main() {
     ));
     app.add_action(&new_window_action);
 
-    gtk::Window::set_default_icon_name("com.github.Lyude.neovim-gtk");
+    gtk::Window::set_default_icon_name("io.github.mrjohnnycake.neovim-gtk-ui");
 
     app.run();
     std::process::exit(app_cmdline.borrow().as_ref().unwrap().exit_code().into());

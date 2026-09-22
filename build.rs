@@ -53,7 +53,7 @@ fn main() {
         if let Some(prefix) = option_env!("PREFIX")
             && !prefix.is_empty()
         {
-            PathBuf::from(prefix).join("share/nvim-gtk/runtime")
+            PathBuf::from(prefix).join("share/neovim-gtk-ui/runtime")
         } else {
             PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("runtime")
         }
