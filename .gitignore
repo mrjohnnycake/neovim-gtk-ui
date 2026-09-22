@@ -1,0 +1,14 @@
+target
+*.swp
+
+# Some build output from the CI's container caching I believe…
+container-images.txt
+container-images-key.txt
+container-images-uris.txt
+container-images.txt
+cached-container-images.tar
+
+# Flatpak
+.flatpak-builder
+
+# vim: tw=100 colorcolumn=100
