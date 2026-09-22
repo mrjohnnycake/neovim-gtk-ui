@@ -32,7 +32,7 @@ use crate::nvim::{
     self, CallErrorExt, ErrorReport, NeovimApiInfo, NeovimClient, NormalError, NvimHandler,
     NvimInitError, NvimSession, PendingPopupMenu, RedrawMode, Tabpage,
 };
-use crate::settings::{FontSource, Settings};
+use crate::settings::{FontSource, Settings, SettingsLoader};
 use crate::ui_model::ModelRect;
 use crate::{NvimTransport, spawn_timeout, spawn_timeout_user_err};
 
@@ -1647,7 +1647,21 @@ fn init_nvim_async(
         }
 
         if set_runtime_path {
-            let set_rtp_command = runtimepath_append_command(&gui_runtime_path);
+            // Appending to 'runtimepath' here happens well after nvim's own
+            // one-time startup scan of plugin/**/*.vim, so our bundled shim
+            // won't get auto-loaded - source it explicitly. The clipboard
+            // variable must be set in this same command (rather than as a
+            // --cmd at spawn time) since --cmd isn't guaranteed to finish
+            // before this externally-sent command runs.
+            let internal_clipboard = if crate::config::AppConfig::load().internal_clipboard {
+                "let g:GuiInternalClipboard = 1 | "
+            } else {
+                ""
+            };
+            let set_rtp_command = format!(
+                "{internal_clipboard}{} | runtime! plugin/nvim_gui_shim.vim",
+                runtimepath_append_command(&gui_runtime_path)
+            );
             if let Err(ref e) = session
                 .timeout(session.command(&set_rtp_command))
                 .await

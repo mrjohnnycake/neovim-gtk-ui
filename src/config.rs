@@ -24,18 +24,53 @@ const CONFIG_TEMPLATE: &str = r#"# --- Neovim GTK UI configuration --- #
 # Editor font, as a Pango font description, e.g. "Iosevka 14".
 # Left commented, this follows the GNOME system monospace font.
 # font = "Monospace 12"
+
+# OpenType font features, e.g. "cv17, ss01" for stylistic sets.
+# font_features = "cv17"
+
+# Extra pixels added between lines. Can be negative.
+# linespace = 0
+
+# Window transparency, from 0.0 (invisible) to 1.0 (opaque).
+# transparency = 1.0
+
+# How many times the cursor blinks before it stops; -1 blinks forever.
+# cursor_blink = -1
+
+# Render the completion popup as a native GTK widget instead of nvim's
+# own terminal-style popup.
+# external_popupmenu = true
+
+# Render the tab bar as a native GTK widget instead of nvim's own tabline.
+# external_tabline = true
+
+# Render the command line as a native GTK widget instead of nvim's own
+# terminal-style command line.
+# external_cmdline = false
+
+# Use the GTK clipboard directly for the + and * registers, instead of
+# nvim's own clipboard provider (e.g. xclip/wl-clipboard).
+# internal_clipboard = false
 "#;
 
 /// User-facing app settings, loaded from `config.toml` in the app config
 /// directory. Each field can also be overridden per-invocation by the
 /// matching `NVIM_GTK_*` environment variable.
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 #[serde(default)]
 pub struct AppConfig {
     pub prefer_dark_theme: bool,
     pub show_header_bar: bool,
     pub window_decorations: bool,
     pub font: Option<String>,
+    pub font_features: Option<String>,
+    pub linespace: Option<i32>,
+    pub transparency: Option<f64>,
+    pub cursor_blink: Option<i32>,
+    pub external_popupmenu: Option<bool>,
+    pub external_tabline: Option<bool>,
+    pub external_cmdline: Option<bool>,
+    pub internal_clipboard: bool,
 }
 
 impl Default for AppConfig {
@@ -45,6 +80,14 @@ impl Default for AppConfig {
             show_header_bar: true,
             window_decorations: true,
             font: None,
+            font_features: None,
+            linespace: None,
+            transparency: None,
+            cursor_blink: None,
+            external_popupmenu: None,
+            external_tabline: None,
+            external_cmdline: None,
+            internal_clipboard: false,
         }
     }
 }
@@ -71,5 +114,35 @@ impl AppConfig {
         }
 
         Self::load()
+    }
+
+    /// Ex commands (using the same GuiXxx/NGXxx commands ginit.vim would use)
+    /// that apply every setting here which isn't left at its default.
+    pub fn ex_commands(&self) -> Vec<String> {
+        let mut commands = Vec::new();
+
+        if let Some(features) = &self.font_features {
+            commands.push(format!("GuiFontFeatures {features}"));
+        }
+        if let Some(linespace) = self.linespace {
+            commands.push(format!("GuiLinespace {linespace}"));
+        }
+        if let Some(alpha) = self.transparency {
+            commands.push(format!("NGTransparency {alpha} {alpha}"));
+        }
+        if let Some(blink) = self.cursor_blink {
+            commands.push(format!("NGSetCursorBlink {blink}"));
+        }
+        if let Some(enabled) = self.external_popupmenu {
+            commands.push(format!("GuiPopupmenu {}", enabled as u8));
+        }
+        if let Some(enabled) = self.external_tabline {
+            commands.push(format!("GuiTabline {}", enabled as u8));
+        }
+        if let Some(enabled) = self.external_cmdline {
+            commands.push(format!("GuiCmdline {}", enabled as u8));
+        }
+
+        commands
     }
 }

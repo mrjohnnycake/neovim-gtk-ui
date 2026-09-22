@@ -379,6 +379,8 @@ impl Ui {
             self.plug_manager,
             #[strong(rename_to = files_list)]
             self.open_paths,
+            #[strong]
+            config,
             move || {
                 Ui::nvim_started(
                     &state_ref.borrow(),
@@ -386,6 +388,7 @@ impl Ui {
                     &file_browser_ref,
                     &files_list,
                     &autocmds,
+                    &config,
                     post_config_cmds.as_ref(),
                     diff_mode,
                 );
@@ -408,6 +411,7 @@ impl Ui {
         file_browser: &UiMutex<FileBrowserWidget>,
         files_list: &[String],
         subscriptions: &[SubscriptionHandle],
+        config: &AppConfig,
         post_config_cmds: &[String],
         diff_mode: bool,
     ) {
@@ -420,7 +424,15 @@ impl Ui {
             shell.run_now(subscription);
         }
 
-        let mut commands = Vec::<String>::new();
+        // GuiXxx/NGXxx commands aren't declared `-bar`, so joining them with `|`
+        // (below) would make the first one swallow the rest of the line as its
+        // own argument. `exec "..."` sidesteps that the same way post_config_cmds
+        // already does.
+        let mut commands: Vec<String> = config
+            .ex_commands()
+            .into_iter()
+            .map(|cmd| format!(r#"exec "{}""#, misc::viml_escape(&cmd)))
+            .collect();
         if !files_list.is_empty() {
             if diff_mode {
                 commands.reserve(files_list.len() + post_config_cmds.len());
