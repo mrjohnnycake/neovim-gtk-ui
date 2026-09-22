@@ -20,9 +20,8 @@ install-resources:
 	mkdir -p $(DESTDIR)$(PREFIX)/share/neovim-gtk-ui/
 	cp -r runtime $(DESTDIR)$(PREFIX)/share/neovim-gtk-ui/
 	mkdir -p $(DESTDIR)$(PREFIX)/share/applications/
-	sed -e "s|Exec=neovim-gtk-ui|Exec=$(PREFIX)/bin/neovim-gtk-ui|" \
-		desktop/io.github.mrjohnnycake.neovim-gtk-ui.desktop \
-		>$(DESTDIR)$(PREFIX)/share/applications/io.github.mrjohnnycake.neovim-gtk-ui.desktop
+	cp desktop/io.github.mrjohnnycake.neovim-gtk-ui.desktop \
+		$(DESTDIR)$(PREFIX)/share/applications/io.github.mrjohnnycake.neovim-gtk-ui.desktop
 	mkdir -p $(DESTDIR)$(PREFIX)/share/icons/hicolor/128x128/apps/
 	cp desktop/io.github.mrjohnnycake.neovim-gtk-ui_128.png $(DESTDIR)$(PREFIX)/share/icons/hicolor/128x128/apps/io.github.mrjohnnycake.neovim-gtk-ui.png
 	mkdir -p $(DESTDIR)$(PREFIX)/share/icons/hicolor/48x48/apps/
