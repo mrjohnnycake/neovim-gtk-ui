@@ -16,7 +16,7 @@
 
 ## Sidebar (file browser)
 
-A directory tree with a folder picker at the top, a "show hidden files" toggle, and a right-click context menu for common file operations. Toggle it from the **⋮** menu, or drag its edge to resize — the width and open/closed state are remembered between sessions.
+A directory tree with a folder picker at the top, a "show hidden files" toggle, and a right-click context menu for common file operations. Toggle it from the **⋮** menu or with **Alt+B**, or drag its edge to resize — the width and open/closed state are remembered between sessions.
 
 ## Tabs
 

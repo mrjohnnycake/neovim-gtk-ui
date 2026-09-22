@@ -223,7 +223,7 @@ impl Ui {
             }
         ));
         app.add_action(&show_sidebar_action);
-        app.set_accels_for_action("app.show-sidebar", &["<Primary>b"]);
+        app.set_accels_for_action("app.show-sidebar", &["<Alt>b"]);
 
         window.connect_default_width_notify(glib::clone!(
             #[strong]

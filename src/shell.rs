@@ -982,9 +982,10 @@ impl Shell {
                 // Toggle the sidebar ourselves and stop here, rather than
                 // relying on the app.show-sidebar accelerator: local
                 // controllers run before global accelerators are considered,
-                // so forwarding to nvim first would both scroll nvim (native
-                // Ctrl-B is page-up) and starve the accelerator of the event.
-                if key == gdk::Key::b && modifiers == gdk::ModifierType::CONTROL_MASK {
+                // so forwarding this to nvim first would starve the
+                // accelerator of the event (harmless to nvim itself - unlike
+                // Ctrl-b, Alt-b has no default mapping in any mode).
+                if key == gdk::Key::b && modifiers == gdk::ModifierType::ALT_MASK {
                     let state = state_ref.borrow();
                     let _ = state.nvim_viewport.activate_action("app.show-sidebar", None);
                     return glib::Propagation::Stop;
