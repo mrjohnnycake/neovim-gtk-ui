@@ -7,14 +7,14 @@ run:
 	RUST_LOG=warn RUST_BACKTRACE=1 cargo run $(CARGO_ARGS) -- --no-fork
 
 install: install-resources
-	cargo install $(CARGO_ARGS) --path . --force --root $(DESTDIR)$(PREFIX)
+	cargo install --locked $(CARGO_ARGS) --path . --force --root $(DESTDIR)$(PREFIX)
 
 install-flatpak: install
 	mkdir -p /app/share/metainfo/
 	cp desktop/io.github.mrjohnnycake.neovim-gtk-ui.metainfo.xml /app/share/metainfo/
 
 install-debug: install-resources
-	cargo install $(CARGO_ARGS) --debug --path . --force --root $(DESTDIR)$(PREFIX)
+	cargo install --locked $(CARGO_ARGS) --debug --path . --force --root $(DESTDIR)$(PREFIX)
 
 install-resources:
 	mkdir -p $(DESTDIR)$(PREFIX)/share/neovim-gtk-ui/

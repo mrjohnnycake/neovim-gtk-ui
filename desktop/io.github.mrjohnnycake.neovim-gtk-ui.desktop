@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Neovim GTK UI
+Name=Neovim GTK
 Comment=Gtk GUI for Neovim text editor
 Exec=neovim-gtk-ui -- %F
 Icon=io.github.mrjohnnycake.neovim-gtk-ui
