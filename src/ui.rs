@@ -207,7 +207,7 @@ impl Ui {
         };
 
         let show_sidebar_action =
-            SimpleAction::new_stateful("show-sidebar", None, &false.to_variant());
+            SimpleAction::new_stateful("show-sidebar", None, &true.to_variant());
         show_sidebar_action.connect_change_state(glib::clone!(
             #[strong]
             file_browser_ref,
@@ -922,7 +922,7 @@ impl Default for ToplevelState {
             current_width: DEFAULT_WIDTH,
             current_height: DEFAULT_HEIGHT,
             is_maximized: false,
-            show_sidebar: false,
+            show_sidebar: true,
             sidebar_width: DEFAULT_SIDEBAR_WIDTH,
         }
     }
