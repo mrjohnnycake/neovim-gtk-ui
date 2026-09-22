@@ -118,7 +118,7 @@ impl Ui {
         }
         self.initialized = true;
 
-        let config = AppConfig::load();
+        let config = AppConfig::load_or_init();
 
         let mut settings = self.settings.borrow_mut();
         settings.init(config.font.as_deref());
