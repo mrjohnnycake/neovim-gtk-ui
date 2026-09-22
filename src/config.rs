@@ -7,7 +7,8 @@ use crate::settings::SettingsLoader;
 /// Written to config.toml the first time the app runs and no config.toml
 /// exists yet. Every line is commented out and shows its default, so the
 /// file is both documentation and a ready-to-edit starting point.
-const CONFIG_TEMPLATE: &str = r#"# neovim-gtk-ui configuration.
+const CONFIG_TEMPLATE: &str = r#"# --- Neovim GTK UI configuration --- #
+
 # Uncomment a line and change its value to override the default shown.
 # A matching NVIM_GTK_* environment variable, if set, wins over this file.
 
