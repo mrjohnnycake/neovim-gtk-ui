@@ -991,6 +991,21 @@ impl Shell {
                     return glib::Propagation::Stop;
                 }
 
+                // Ctrl+C/Ctrl+V are real (if minor/major, respectively) Vim
+                // bindings - Escape-equivalent and Visual Block mode. Using
+                // the terminal-emulator convention of adding Shift avoids
+                // shadowing either one.
+                let ctrl_shift =
+                    gdk::ModifierType::CONTROL_MASK | gdk::ModifierType::SHIFT_MASK;
+                if modifiers == ctrl_shift && matches!(key, gdk::Key::c | gdk::Key::C) {
+                    state_ref.borrow().edit_copy("+");
+                    return glib::Propagation::Stop;
+                }
+                if modifiers == ctrl_shift && matches!(key, gdk::Key::v | gdk::Key::V) {
+                    state_ref.borrow().edit_paste("+");
+                    return glib::Propagation::Stop;
+                }
+
                 let mut state = state_ref.borrow_mut();
                 state.cursor.as_mut().unwrap().reset_state();
                 ui_state_ref
