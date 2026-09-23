@@ -4,7 +4,7 @@
 
 ## Header bar
 
-- **Open** (left side) — recent files and bookmarked project directories.
+- **Open** (left side) — click the label to open the file chooser directly, or the dropdown arrow next to it for recent files and bookmarked project directories.
 - **New tab** — opens a new tab in the current window.
 - **Paste** — pastes from the system clipboard.
 - **Save All** — saves every modified buffer.
@@ -23,4 +23,4 @@ Each tab is a full Neovim tab page. Drag a file onto the window from a file mana
 
 ## Projects
 
-The **Open** menu tracks recently-opened files and lets you bookmark project directories for quick access later.
+The **Open** dropdown tracks recently-opened files and lets you bookmark project directories for quick access later.

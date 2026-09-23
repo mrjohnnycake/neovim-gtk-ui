@@ -55,7 +55,8 @@ const COLUMN_IDS: [u32; COLUMN_COUNT] = [
 
 pub struct Projects {
     shell: Rc<RefCell<Shell>>,
-    open_btn: MenuButton,
+    open_box: gtk::Box,
+    open_dropdown_btn: MenuButton,
     tree: TreeView,
     scroll: ScrolledWindow,
     store: Option<EntryStore>,
@@ -87,27 +88,43 @@ impl Projects {
             .build();
 
         let popup = gtk::Popover::builder().child(&vbox).build();
-        let open_btn = MenuButton::builder()
+
+        // Split like gedit's Open button: the label opens the file chooser directly,
+        // the dropdown arrow shows recent files/projects.
+        let open_file_btn = gtk::Button::builder()
             .focusable(false)
             .focus_on_click(false)
-            .sensitive(false)
             .label("Open")
+            .build();
+        let open_dropdown_btn = MenuButton::builder()
+            .focusable(false)
+            .focus_on_click(false)
+            .icon_name("pan-down-symbolic")
             .direction(gtk::ArrowType::Down)
             .popover(&popup)
             .build();
 
         /* Make sure the child button isn't focusable either, without breaking keyboard focus on the
          * popup */
-        open_btn
+        open_dropdown_btn
             .first_child()
             .unwrap()
             .downcast::<gtk::ToggleButton>()
             .unwrap()
             .set_focusable(false);
 
+        let open_box = gtk::Box::builder()
+            .orientation(Orientation::Horizontal)
+            .sensitive(false)
+            .build();
+        open_box.add_css_class("linked");
+        open_box.append(&open_file_btn);
+        open_box.append(&open_dropdown_btn);
+
         let projects = Projects {
             shell: shell.clone(),
-            open_btn,
+            open_box,
+            open_dropdown_btn,
             tree,
             scroll,
             store: None,
@@ -125,8 +142,8 @@ impl Projects {
         vbox.append(&search_box);
         vbox.append(&projects.scroll);
 
-        let open_btn = gtk::Button::with_label("Other Documents…");
-        vbox.append(&open_btn);
+        let open_other_btn = gtk::Button::with_label("Other Documents…");
+        vbox.append(&open_other_btn);
 
         let projects = Arc::new(UiMutex::new(projects));
         let projects_ref = projects.borrow();
@@ -176,7 +193,17 @@ impl Projects {
             }
         ));
 
-        open_btn.connect_clicked(glib::clone!(
+        open_other_btn.connect_clicked(glib::clone!(
+            #[strong]
+            projects,
+            move |_| {
+                let projects = projects.borrow();
+                projects.show_open_file_dlg();
+                projects.set_active(false);
+            }
+        ));
+
+        open_file_btn.connect_clicked(glib::clone!(
             #[strong]
             projects,
             move |_| {
@@ -261,7 +288,7 @@ impl Projects {
     }
 
     fn show_open_file_dlg(&self) {
-        let window = self.open_btn.root().unwrap().downcast::<gtk::Window>().ok();
+        let window = self.open_box.root().unwrap().downcast::<gtk::Window>().ok();
         let dlg = gtk::FileChooserDialog::new(
             Some("Open Document"),
             window.as_ref(),
@@ -406,15 +433,15 @@ impl Projects {
         }
     }
 
-    pub fn open_btn(&self) -> &MenuButton {
-        &self.open_btn
+    pub fn open_btn(&self) -> &gtk::Box {
+        &self.open_box
     }
 
     fn set_active(&self, active: bool) {
         /* We might be getting called from a signal handler, so open/close the projects menu with an
          * idle callback
          */
-        let open_btn = self.open_btn.clone();
+        let open_btn = self.open_dropdown_btn.clone();
         glib::idle_add_local_once(move || {
             if active {
                 open_btn.popup();

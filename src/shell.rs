@@ -126,7 +126,7 @@ impl ResizeState {
 
 /// A collection of all header bar buttons used in neovim-gtk-ui
 pub struct HeaderBarButtons {
-    open_btn: MenuButton,
+    open_btn: gtk::Box,
     new_tab_btn: Button,
     paste_btn: Button,
     save_btn: Button,
@@ -135,7 +135,7 @@ pub struct HeaderBarButtons {
 
 impl HeaderBarButtons {
     pub fn new(
-        open_btn: MenuButton,
+        open_btn: gtk::Box,
         new_tab_btn: Button,
         paste_btn: Button,
         save_btn: Button,
