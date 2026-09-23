@@ -21,10 +21,17 @@ commented out and explained. See [wiki/Configuration.md](wiki/Configuration.md) 
 plus the `ginit.vim` commands available for anything not covered there.
 
 # Install
-First check [build prerequisites](#build-prerequisites).
+## Using the included PKGBUILD (recommended)
+Builds and installs a real pacman-tracked package - `-s` has pacman install build dependencies
+for you, so there's nothing to set up first:
+```
+makepkg -si
+```
+Uninstall with `sudo pacman -R neovim-gtk-ui`.
 
-Install to your user directory - no `sudo` needed, and avoids putting unpackaged files under
-`/usr` where pacman won't know about them:
+## Manual install
+First check [build prerequisites](#build-prerequisites). Installs to your user directory instead -
+no `sudo` needed, but pacman won't know these files exist:
 ```
 make PREFIX="$HOME/.local" install
 ```
@@ -32,8 +39,8 @@ Make sure `~/.local/bin` is on your `PATH`. To uninstall, run the same command w
 instead of `install`.
 
 # Build prerequisites
-This fork only targets Arch Linux (Omarchy), so the only supported way to get dependencies is
-pacman:
+Only needed for a manual install (the PKGBUILD handles this itself). This fork only targets Arch
+Linux (Omarchy), so the only supported way to get dependencies is pacman:
 ```
 sudo pacman -S --needed base-devel gtk4 gtksourceview5 rust
 ```
