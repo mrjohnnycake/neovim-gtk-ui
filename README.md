@@ -7,22 +7,22 @@ Neovim GTK UI wraps Neovim in a familiar Gnome window for better integration wit
 This is being developed on Omarchy meaning that it is focused on Wayland and Hyprland on Arch Linux. That is the only scope of my use of this app so if you use a different distro I can't guarantee that it will work on there or not.
 
 **AI in Use**
-- This is being developed with support of Claude so if you don't like AI because it stole your milk money when you were little or something I don't know what to say. It works for me just fine.
+- Claude helped me out on this app so if you don't like AI because it stole your milk money when you were little or something I don't know what to say. It works for me just fine.
 
 This began as a fork of [Lyude/geovim-gtk](https://github.com/Lyude/neovim-gtk) which was itself a fork of [daa84/neovim-gtk](https://github.com/daa84/neovim-gtk).
 
----
-
-For more screenshots and a description of basic usage see [wiki/GUI.md](wiki/GUI.md).
 
 # Configuration
-Settings live in `~/.config/neovim-gtk-ui/config.toml`, auto-created on first run with every option
-commented out and explained. See [wiki/Configuration.md](wiki/Configuration.md) for the full list,
-plus the `ginit.vim` commands available for anything not covered there.
+Settings live in `~/.config/neovim-gtk-ui/config.toml` and are auto-created on the first run with every default option commented out and explained. See [wiki/Configuration.md](wiki/Configuration.md) for the full list.
+
+Alternatively you can use `ginit.vim` commands available for anything not covered there.
+
+For window tips see [wiki/GUI.md](wiki/GUI.md).
+
 
 # Install
 ## Using the included PKGBUILD (recommended)
-Builds and installs a real pacman-tracked package.
+You can build and install this app as a real pacman-tracked package.
 
 1. Make sure you have the base Arch build tools (most systems already do):
    ```
@@ -42,26 +42,30 @@ Builds and installs a real pacman-tracked package.
    password for both.
 4. Launch it from your app launcher ("Neovim GTK"), or run `neovim-gtk-ui` from a terminal.
 
-Uninstall any time with `sudo pacman -R neovim-gtk-ui`.
+With this method you can uninstall any time with `sudo pacman -R neovim-gtk-ui`.
 
 ## Manual install
-First check [build prerequisites](#build-prerequisites). Installs to your user directory instead -
-no `sudo` needed, but pacman won't know these files exist:
-```
-make PREFIX="$HOME/.local" install
-```
-Make sure `~/.local/bin` is on your `PATH`. To uninstall, run the same command with `uninstall`
-instead of `install`.
+Skips pacman/makepkg entirely and installs to your user directory instead - no `sudo` needed, but
+these files won't be tracked by pacman.
 
-# Build prerequisites
-Only needed for a manual install (the PKGBUILD handles this itself). This fork only targets Arch
-Linux (Omarchy), so the only supported way to get dependencies is pacman:
-```
-sudo pacman -S --needed base-devel gtk4 gtksourceview5 rust
-```
+1. Install the build dependencies:
+   ```
+   sudo pacman -S --needed base-devel gtk4 gtksourceview5 rust
+   ```
+2. Clone the repo and `cd` into it:
+   ```
+   git clone https://github.com/mrjohnnycake/neovim-gtk-ui.git
+   cd neovim-gtk-ui
+   ```
+3. Build and install:
+   ```
+   make PREFIX="$HOME/.local" install
+   ```
+4. Make sure `~/.local/bin` is on your `PATH`, then launch it from your app launcher ("Neovim
+   GTK"), or run `neovim-gtk-ui` from a terminal.
 
-Then build:
+Uninstall any time with:
 ```
-cargo build --release
+make PREFIX="$HOME/.local" uninstall
 ```
 
