@@ -142,9 +142,6 @@ impl Projects {
         vbox.append(&search_box);
         vbox.append(&projects.scroll);
 
-        let open_other_btn = gtk::Button::with_label("Other Documents…");
-        vbox.append(&open_other_btn);
-
         let projects = Arc::new(UiMutex::new(projects));
         let projects_ref = projects.borrow();
 
@@ -190,16 +187,6 @@ impl Projects {
                     projects.open_uri(&model, &iter);
                     projects.set_active(false);
                 }
-            }
-        ));
-
-        open_other_btn.connect_clicked(glib::clone!(
-            #[strong]
-            projects,
-            move |_| {
-                let projects = projects.borrow();
-                projects.show_open_file_dlg();
-                projects.set_active(false);
             }
         ));
 
