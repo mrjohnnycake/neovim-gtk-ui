@@ -22,12 +22,27 @@ plus the `ginit.vim` commands available for anything not covered there.
 
 # Install
 ## Using the included PKGBUILD (recommended)
-Builds and installs a real pacman-tracked package - `-s` has pacman install build dependencies
-for you, so there's nothing to set up first:
-```
-makepkg -si
-```
-Uninstall with `sudo pacman -R neovim-gtk-ui`.
+Builds and installs a real pacman-tracked package.
+
+1. Make sure you have the base Arch build tools (most systems already do):
+   ```
+   sudo pacman -S --needed base-devel
+   ```
+2. Clone the repo and `cd` into it:
+   ```
+   git clone https://github.com/mrjohnnycake/neovim-gtk-ui.git
+   cd neovim-gtk-ui
+   ```
+3. Build and install:
+   ```
+   makepkg -si
+   ```
+   `-s` installs any missing dependencies (gtk4, gtksourceview5, neovim, rust) via pacman before
+   building; `-i` installs the finished package once it's built. You'll be prompted for your
+   password for both.
+4. Launch it from your app launcher ("Neovim GTK"), or run `neovim-gtk-ui` from a terminal.
+
+Uninstall any time with `sudo pacman -R neovim-gtk-ui`.
 
 ## Manual install
 First check [build prerequisites](#build-prerequisites). Installs to your user directory instead -
