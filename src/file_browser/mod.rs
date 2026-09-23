@@ -31,6 +31,7 @@ const ICON_FILE: &str = "text-x-generic-symbolic";
 struct Components {
     dir_list_model: gtk::TreeStore,
     dir_list: gtk::ComboBox,
+    up_btn: gtk::Button,
     context_menu: gtk::PopoverMenu,
     show_hidden_action: gio::SimpleAction,
     cd_action: gio::SimpleAction,
@@ -90,9 +91,9 @@ impl FileBrowserWidget {
             .margin_top(6)
             .margin_bottom(6)
             .margin_start(6)
-            .margin_end(6)
             .model(&dir_list_model)
             .valign(gtk::Align::Fill)
+            .hexpand(true)
             .build();
 
         let text_renderer = gtk::CellRendererText::builder()
@@ -110,7 +111,23 @@ impl FileBrowserWidget {
         dir_list.pack_start(&pixbuf_renderer, false);
         dir_list.add_attribute(&pixbuf_renderer, "icon-name", 1);
 
-        widget.append(&dir_list);
+        let up_btn = gtk::Button::builder()
+            .icon_name("go-up-symbolic")
+            .can_focus(false)
+            .focus_on_click(false)
+            .focusable(false)
+            .margin_top(6)
+            .margin_bottom(6)
+            .margin_end(6)
+            .tooltip_text("Go up one level")
+            .build();
+
+        let dir_list_row = gtk::Box::builder()
+            .orientation(gtk::Orientation::Horizontal)
+            .build();
+        dir_list_row.append(&dir_list);
+        dir_list_row.append(&up_btn);
+        widget.append(&dir_list_row);
 
         let store = gtk::TreeStore::new(&[
             glib::Type::STRING,
@@ -177,6 +194,7 @@ impl FileBrowserWidget {
             comps: Components {
                 dir_list_model,
                 dir_list,
+                up_btn,
                 context_menu,
                 cd_action: gio::SimpleAction::new("cd", None),
                 show_hidden_action: gio::SimpleAction::new_stateful(
@@ -297,6 +315,21 @@ impl FileBrowserWidget {
             }
         ));
         actions.add_action(cd_action);
+
+        self.comps.up_btn.connect_clicked(glib::clone!(
+            #[strong]
+            state_ref,
+            #[strong]
+            nvim_ref,
+            move |_| {
+                let nvim = nvim_ref.nvim().unwrap();
+                let current_dir = state_ref.borrow().current_dir.clone();
+                if let Some(parent) = Path::new(&current_dir).parent() {
+                    let parent = parent.to_string_lossy().to_string();
+                    spawn_timeout!(nvim.set_current_dir(&parent));
+                }
+            }
+        ));
 
         // Show / hide hidden files when corresponding menu item is toggled.
         let show_hidden_action = &self.comps.show_hidden_action;
