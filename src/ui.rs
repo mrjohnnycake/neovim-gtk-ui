@@ -720,8 +720,8 @@ fn on_help_about(window: &gtk::ApplicationWindow) {
     about.add_credit_section(
         "Forked from",
         &[
-            "Lyude/neovim-gtk <https://github.com/Lyude/neovim-gtk>",
-            "daa84/neovim-gtk <https://github.com/daa84/neovim-gtk>",
+            "Lyude/neovim-gtk https://github.com/Lyude/neovim-gtk",
+            "daa84/neovim-gtk https://github.com/daa84/neovim-gtk",
         ],
     );
     about.set_modal(true);
