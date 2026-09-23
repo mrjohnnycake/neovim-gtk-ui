@@ -11,7 +11,6 @@
 - The **⋮** menu on the right:
   - **New Window** — opens another instance of the editor.
   - **Sidebar** — toggles the file browser sidebar.
-  - **Plugins** — opens the plugin manager.
   - **About** — version and build info.
 
 ## Sidebar (file browser)
@@ -25,7 +24,3 @@ Each tab is a full Neovim tab page. Drag a file onto the window from a file mana
 ## Projects
 
 The **Open** menu tracks recently-opened files and lets you bookmark project directories for quick access later.
-
-## Plugin manager
-
-Manages `vim-plug`-based plugins without hand-editing your Neovim config: browse, install, and enable/disable plugins from a dialog (**⋮ → Plugins**).

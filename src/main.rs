@@ -7,7 +7,6 @@ mod color;
 mod config;
 mod dirs;
 mod mode;
-mod nvim_config;
 mod ui_model;
 mod value;
 #[macro_use]
@@ -22,7 +21,6 @@ mod input;
 mod misc;
 mod nvim;
 mod nvim_viewport;
-mod plug_manager;
 mod popup_menu;
 mod project;
 mod render;

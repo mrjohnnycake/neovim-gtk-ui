@@ -43,8 +43,6 @@ use nvim_rs::{
     error::{CallError, DecodeError, LoopError},
 };
 
-use crate::nvim_config::NvimConfig;
-
 #[derive(Debug)]
 pub enum NvimInitError {
     ResponseError {
@@ -670,12 +668,6 @@ pub fn start<'a>(
         .stderr(Stdio::inherit())
         .stdin(Stdio::piped())
         .stdout(Stdio::piped());
-
-    if let Some(nvim_config) = NvimConfig::config_path()
-        && let Some(path) = nvim_config.to_str()
-    {
-        cmd.arg("--cmd").arg(format!("source {path}"));
-    }
 
     for arg in args_for_neovim {
         cmd.arg(arg);
