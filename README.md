@@ -12,14 +12,6 @@ This is being developed on Omarchy meaning that it is focused on Wayland and Hyp
 This began as a fork of [Lyude/geovim-gtk](https://github.com/Lyude/neovim-gtk) which was itself a fork of [daa84/neovim-gtk](https://github.com/daa84/neovim-gtk).
 
 
-# Configuration
-Settings live in `~/.config/neovim-gtk-ui/config.toml` and are auto-created on the first run with every default option commented out and explained. See [wiki/Configuration.md](wiki/Configuration.md) for the full list.
-
-Alternatively you can use `ginit.vim` commands available for anything not covered there.
-
-For window tips see [wiki/GUI.md](wiki/GUI.md).
-
-
 # Install
 ## Using the included PKGBUILD (recommended)
 You can build and install this app as a real pacman-tracked package.
@@ -45,8 +37,6 @@ You can build and install this app as a real pacman-tracked package.
 With this method you can uninstall any time with `sudo pacman -R neovim-gtk-ui`.
 
 ## Manual install
-Skips pacman/makepkg entirely and installs to your user directory instead - no `sudo` needed, but
-these files won't be tracked by pacman.
 
 1. Install the build dependencies:
    ```
@@ -69,3 +59,10 @@ Uninstall any time with:
 make PREFIX="$HOME/.local" uninstall
 ```
 
+
+# Configuration
+Settings live in `~/.config/neovim-gtk-ui/config.toml` and are auto-created on the first run with every default option commented out and explained. See [wiki/Configuration.md](wiki/Configuration.md) for the full list.
+
+Alternatively you can use `ginit.vim` commands available for anything not covered there.
+
+For window tips see [wiki/GUI.md](wiki/GUI.md).
