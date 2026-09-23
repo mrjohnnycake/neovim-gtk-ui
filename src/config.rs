@@ -25,6 +25,9 @@ const CONFIG_TEMPLATE: &str = r#"# --- Neovim GTK UI configuration --- #
 # you last left it as; set explicitly to always start the same way.
 # show_sidebar = true
 
+# Show hidden files (dotfiles) in the sidebar by default.
+# show_hidden_files = false
+
 # Editor font, as a Pango font description, e.g. "Iosevka 14".
 # Left commented, this follows the GNOME system monospace font.
 # font = "Monospace 12"
@@ -67,6 +70,7 @@ pub struct AppConfig {
     pub show_header_bar: bool,
     pub window_decorations: bool,
     pub show_sidebar: Option<bool>,
+    pub show_hidden_files: bool,
     pub font: Option<String>,
     pub font_features: Option<String>,
     pub linespace: Option<i32>,
@@ -85,6 +89,7 @@ impl Default for AppConfig {
             show_header_bar: true,
             window_decorations: true,
             show_sidebar: None,
+            show_hidden_files: false,
             font: None,
             font_features: None,
             linespace: None,

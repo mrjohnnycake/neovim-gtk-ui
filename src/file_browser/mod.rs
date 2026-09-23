@@ -198,12 +198,16 @@ impl FileBrowserWidget {
         self.shell_state.borrow().nvim()
     }
 
-    pub fn init(&mut self) {
+    pub fn init(&mut self, show_hidden: bool) {
         // Initialize values.
         if let Some(dir) = get_current_dir(&self.nvim().unwrap()) {
             update_dir_list(&dir, &self.comps.dir_list_model, &self.comps.dir_list);
             self.state.borrow_mut().current_dir = dir;
         }
+        self.state.borrow_mut().show_hidden = show_hidden;
+        self.comps
+            .show_hidden_action
+            .set_state(&show_hidden.to_variant());
 
         // Populate tree.
         tree_reload(&self.store, &self.state.borrow());

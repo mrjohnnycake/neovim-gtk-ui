@@ -10,6 +10,7 @@ The first time you run the app, it writes a fully-commented `config.toml` to you
 | `show_header_bar` | `true` | Show the header bar (title, menu, buttons) at the top of the window. |
 | `window_decorations` | `true` | Show the window's title bar and border. |
 | `show_sidebar` | *(remembered)* | Show the file browser sidebar. Left unset, this remembers whatever you last left it as; set explicitly to always start the same way. |
+| `show_hidden_files` | `false` | Show hidden files (dotfiles) in the sidebar by default. |
 | `font` | *(GNOME font)* | Editor font, as a Pango font description, e.g. `"Iosevka 14"`. Left unset, this follows the GNOME system monospace font live. |
 | `font_features` | *(none)* | OpenType font features, e.g. `"cv17, ss01"` for stylistic sets. |
 | `linespace` | `0` | Extra pixels added between lines. Can be negative. |

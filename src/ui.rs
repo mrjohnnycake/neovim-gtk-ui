@@ -409,7 +409,7 @@ impl Ui {
         post_config_cmds: &[String],
         diff_mode: bool,
     ) {
-        file_browser.borrow_mut().init();
+        file_browser.borrow_mut().init(config.show_hidden_files);
         shell.set_autocmds();
         for subscription in subscriptions.iter() {
             shell.run_now(subscription);
