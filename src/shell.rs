@@ -52,6 +52,10 @@ use crate::ui::{Components, UiMutex};
 const DEFAULT_FONT_NAME: &str = "DejaVu Sans Mono 12";
 pub const MINIMUM_SUPPORTED_NVIM_VERSION: &str = "0.3.2";
 
+/// Blank gutter reserved on the right edge of the editor, in pixels, so text
+/// doesn't run flush against the window edge.
+const RIGHT_PADDING: f64 = 10.0;
+
 macro_rules! idle_cb_call {
     ($state:ident.$cb:ident($( $x:expr ),*)) => (
         glib::idle_add_once(move || {
@@ -501,8 +505,10 @@ impl State {
             ..
         } = self.render_state.borrow().font_ctx.cell_metrics();
 
+        let usable_width = (w as f64 - RIGHT_PADDING).max(0.0);
+
         (
-            ((w as f64 / char_width).trunc() as i32).max(1),
+            ((usable_width / char_width).trunc() as i32).max(1),
             ((h as f64 / line_height).trunc() as i32).max(3),
         )
     }
