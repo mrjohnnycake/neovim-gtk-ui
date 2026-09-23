@@ -21,37 +21,25 @@ commented out and explained. See [wiki/Configuration.md](wiki/Configuration.md) 
 plus the `ginit.vim` commands available for anything not covered there.
 
 # Install
-## From sources
-First check [build prerequisites](#build-prerequisites)
+First check [build prerequisites](#build-prerequisites).
 
-By default to `/usr/local`:
+Install to your user directory - no `sudo` needed, and avoids putting unpackaged files under
+`/usr` where pacman won't know about them:
 ```
-make install
+make PREFIX="$HOME/.local" install
 ```
-Or to some custom path:
-```
-make PREFIX=/some/custom/path install
-```
-
+Make sure `~/.local/bin` is on your `PATH`. To uninstall, run the same command with `uninstall`
+instead of `install`.
 
 # Build prerequisites
-## Linux
-First install the GTK development packages. On Debian/Ubuntu derivatives
-this can be done as follows:
-``` shell
-apt install libgtk-4-dev
+This fork only targets Arch Linux (Omarchy), so the only supported way to get dependencies is
+pacman:
+```
+sudo pacman -S --needed base-devel gtk4 gtksourceview5 rust
 ```
 
-On Fedora:
-```bash
-dnf install atk-devel glib2-devel pango-devel gtk4-devel
-```
-
-Then install the latest rust compiler, best with the
-[rustup tool](https://rustup.rs/). The build command:
+Then build:
 ```
 cargo build --release
 ```
-
-As of writing this (Dec 16, 2022) the packaged rust tools in Fedora also work for building.
 
