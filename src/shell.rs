@@ -128,7 +128,6 @@ impl ResizeState {
 pub struct HeaderBarButtons {
     open_btn: gtk::Box,
     new_tab_btn: Button,
-    paste_btn: Button,
     save_btn: Button,
     primary_menu_btn: MenuButton,
 }
@@ -137,14 +136,12 @@ impl HeaderBarButtons {
     pub fn new(
         open_btn: gtk::Box,
         new_tab_btn: Button,
-        paste_btn: Button,
         save_btn: Button,
         primary_menu_btn: MenuButton,
     ) -> Self {
         Self {
             open_btn,
             new_tab_btn,
-            paste_btn,
             primary_menu_btn,
             save_btn,
         }
@@ -152,7 +149,6 @@ impl HeaderBarButtons {
 
     pub fn set_enabled(&self, enabled: bool) {
         self.new_tab_btn.set_sensitive(enabled);
-        self.paste_btn.set_sensitive(enabled);
         self.save_btn.set_sensitive(enabled);
         self.primary_menu_btn.set_sensitive(enabled);
 
@@ -1299,10 +1295,6 @@ impl Shell {
             nvim.block_timeout(nvim.ui_detach()).report_err();
             nvim.block_on(nvim.shutdown(api_info.map_or(1, |i| i.channel)));
         }
-    }
-
-    pub fn edit_paste(&self) {
-        self.state.borrow().edit_paste("+");
     }
 
     pub fn edit_save(&self) {

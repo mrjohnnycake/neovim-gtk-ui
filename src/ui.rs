@@ -595,14 +595,6 @@ impl Ui {
         primary_menu_btn.set_sensitive(false);
         header_bar.pack_end(&primary_menu_btn);
 
-        let paste_btn = Button::from_icon_name("edit-paste-symbolic");
-        let shell = self.shell.clone();
-        paste_btn.connect_clicked(move |_| shell.borrow().edit_paste());
-        paste_btn.set_focusable(false);
-        paste_btn.set_tooltip_text(Some("Paste from clipboard"));
-        paste_btn.set_sensitive(false);
-        header_bar.pack_end(&paste_btn);
-
         let save_btn = Button::with_label("Save");
         let shell = self.shell.clone();
         save_btn.connect_clicked(move |_| shell.borrow().edit_save());
@@ -628,7 +620,6 @@ impl Ui {
             Box::new(HeaderBarButtons::new(
                 open_btn.clone(),
                 new_tab_btn,
-                paste_btn,
                 save_btn,
                 primary_menu_btn,
             )),
