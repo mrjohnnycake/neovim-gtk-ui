@@ -717,6 +717,13 @@ fn on_help_about(window: &gtk::ApplicationWindow) {
             .as_slice(),
     );
     about.set_comments(Some(misc::about_comments().as_str()));
+    about.add_credit_section(
+        "Forked from",
+        &[
+            "Lyude/neovim-gtk (https://github.com/Lyude/neovim-gtk)",
+            "daa84/neovim-gtk (https://github.com/daa84/neovim-gtk)",
+        ],
+    );
     about.set_modal(true);
 
     about.show();
