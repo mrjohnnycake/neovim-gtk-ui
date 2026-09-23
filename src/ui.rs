@@ -603,9 +603,9 @@ impl Ui {
         paste_btn.set_sensitive(false);
         header_bar.pack_end(&paste_btn);
 
-        let save_btn = Button::with_label("Save All");
+        let save_btn = Button::with_label("Save");
         let shell = self.shell.clone();
-        save_btn.connect_clicked(move |_| shell.borrow().edit_save_all());
+        save_btn.connect_clicked(move |_| shell.borrow().edit_save());
         save_btn.set_focusable(false);
         save_btn.set_sensitive(false);
         header_bar.pack_end(&save_btn);

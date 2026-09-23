@@ -1290,9 +1290,9 @@ impl Shell {
         self.state.borrow().edit_paste("+");
     }
 
-    pub fn edit_save_all(&self) {
+    pub fn edit_save(&self) {
         if let Some(nvim) = self.state.borrow().nvim() {
-            spawn_timeout_user_err!(nvim.command(":wa"));
+            spawn_timeout_user_err!(nvim.command(":w"));
         }
     }
 
