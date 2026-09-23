@@ -9,10 +9,6 @@ run:
 install: install-resources
 	cargo install --locked $(CARGO_ARGS) --path . --force --root $(DESTDIR)$(PREFIX)
 
-install-flatpak: install
-	mkdir -p /app/share/metainfo/
-	cp desktop/io.github.mrjohnnycake.neovim-gtk-ui.metainfo.xml /app/share/metainfo/
-
 install-debug: install-resources
 	cargo install --locked $(CARGO_ARGS) --debug --path . --force --root $(DESTDIR)$(PREFIX)
 
