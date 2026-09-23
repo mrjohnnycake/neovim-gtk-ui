@@ -388,19 +388,13 @@ impl FileBrowserWidget {
             store,
             #[strong]
             shell_state_ref,
-            move |tree, path, _| {
+            move |_, path, _| {
                 let iter = store.iter(path).unwrap();
                 let file_type: u8 = store.get(&iter, Column::FileType as i32);
                 let file_path: String = store.get(&iter, Column::Path as i32);
-                if file_type == FileType::Dir as u8 {
-                    let expanded = tree.row_expanded(path);
-                    if expanded {
-                        tree.collapse_row(path);
-                    } else {
-                        tree.expand_row(path, false);
-                    }
-                } else {
-                    // FileType::File
+                // Directories are handled by the double-click handler below
+                // instead, which navigates the sidebar into them.
+                if file_type != FileType::Dir as u8 {
                     let file_path = escape_filename(file_path.as_str()).to_string();
 
                     shell_state_ref.borrow().open_file(&file_path);
@@ -434,6 +428,45 @@ impl FileBrowserWidget {
 
         let context_menu = &self.comps.context_menu;
         let cd_action = &self.comps.cd_action;
+
+        // Double-clicking a directory navigates the sidebar into it, reusing
+        // the same "Go to directory" action the context menu uses.
+        #[rustfmt::skip]
+        let left_click_controller = gtk::GestureClick::builder()
+            .button(1)
+            .build();
+        left_click_controller.connect_pressed(glib::clone!(
+            #[strong]
+            store,
+            #[strong]
+            state_ref,
+            #[strong]
+            cd_action,
+            move |controller, n_press, x, y| {
+                if n_press != 2 {
+                    return;
+                }
+                let iter = controller
+                    .widget()
+                    .unwrap()
+                    .downcast::<gtk::TreeView>()
+                    .unwrap()
+                    .path_at_pos(x as i32, y as i32)
+                    .and_then(|(path, _, _, _)| path)
+                    .and_then(|path| store.iter(&path));
+                let file_type = iter
+                    .as_ref()
+                    .map(|iter| store.get::<u8>(iter, Column::FileType as i32));
+                if file_type != Some(FileType::Dir as u8) {
+                    return;
+                }
+                let path = iter.map(|iter| store.get::<String>(&iter, Column::Path as i32));
+                state_ref.borrow_mut().selected_path = path;
+                cd_action.activate(None);
+            }
+        ));
+        self.tree.add_controller(left_click_controller);
+
         #[rustfmt::skip]
         let right_click_controller = gtk::GestureClick::builder()
             .button(3)
